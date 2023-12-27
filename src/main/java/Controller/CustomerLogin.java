@@ -31,7 +31,7 @@ public class CustomerLogin extends HttpServlet{
 				res.getWriter().print("<h1>Login Success</h1>");
 				//session tracking
 				req.getSession().setAttribute("customer", customer); //Its is used to store the user information for future purpose as key value pair
-				req.getRequestDispatcher("select_acc_type.jsp").include(req, res);
+				req.getRequestDispatcher("customerhome.html").include(req, res);
 				
 			}
 			else {
