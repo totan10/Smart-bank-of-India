@@ -24,6 +24,7 @@ public class Deposit extends HttpServlet{
 		bankAccount.setAmount(bankAccount.getAmount()+amount);
 		bankDao.update_the_datails(bankAccount);
 		resp.getWriter().print("<h1>Amount deposited successfully</h1>");
+		req.getRequestDispatcher("accounthome.html").include(req, resp);
 		
 	}
 }

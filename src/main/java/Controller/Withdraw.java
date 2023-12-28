@@ -14,21 +14,29 @@ import Dto.BankAccount;
 @WebServlet("/withdraw")
 public class Withdraw extends HttpServlet {
 	@Override
-	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String amt=req.getParameter("amt");
 		double amount=Double.parseDouble(amt);
 		long acno=(long) req.getSession().getAttribute("acno");
 		BankDao bankDao=new BankDao();
 		BankAccount bankAccount=bankDao.fetch_account_details(acno);
 		if(bankAccount.getAmount()<amount) {
-			resp.getWriter().print("<h1>Insufficient balance</h1>");
+			resp.getWriter().print("<h1>Insufficient balance. Your available balance is: "+bankAccount.getAmount()+"</h1>");
 			req.getRequestDispatcher("withdraw.html").include(req, resp);
 		}
 		else {
-			bankAccount.setAmount(bankAccount.getAmount()- amount);
-			bankDao.update_the_datails(bankAccount);
-			resp.getWriter().print("<h1>Amount has been withdrwan successfully</h1>");
+			if(amount>bankAccount.getAcc_limit()) {
+				resp.getWriter().print("<h1>You are exceeding actual account limit.Your account limit is: "+bankAccount.getAcc_limit()+"</h1>");
+				req.getRequestDispatcher("withdraw.html").include(req, resp);
+			}
+			else {
+				bankAccount.setAmount(bankAccount.getAmount()- amount);
+				bankDao.update_the_datails(bankAccount);
+				resp.getWriter().print("<h1>Amount has been withdrwan successfully</h1>");
+				req.getRequestDispatcher("accounthome.html").include(req, resp);
+			}
+			
 		}
-		
 	}
+	
 }
