@@ -1,6 +1,8 @@
 package Controller;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import Dao.BankDao;
 import Dto.BankAccount;
+import Dto.BankTransaction;
 
 @WebServlet("/withdraw")
 public class Withdraw extends HttpServlet {
@@ -31,12 +34,21 @@ public class Withdraw extends HttpServlet {
 			}
 			else {
 				bankAccount.setAmount(bankAccount.getAmount()- amount);
+				
+				BankTransaction bankTransaction=new BankTransaction();
+				bankTransaction.setBalance(bankAccount.getAmount());
+				bankTransaction.setDateTime(LocalDateTime.now());
+				bankTransaction.setDeposit(0);
+				bankTransaction.setWithdraw(amount);
+				
+				List<BankTransaction> list=bankAccount.getList();
+				list.add(bankTransaction);
+				bankAccount.setList(list);
 				bankDao.update_the_datails(bankAccount);
 				resp.getWriter().print("<h1>Amount has been withdrwan successfully</h1>");
 				req.getRequestDispatcher("accounthome.html").include(req, resp);
 			}
 			
 		}
-	}
-	
+	}	
 }

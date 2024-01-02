@@ -1,10 +1,16 @@
 package Dto;
 
+import java.util.List;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.SequenceGenerator;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
 
 @Entity
 public class BankAccount {
@@ -24,6 +30,9 @@ public class BankAccount {
 	
 	@ManyToOne
 	Customer customer;
+	
+	@OneToMany(cascade = javax.persistence.CascadeType.ALL)	//It is used to save the data in database in single shot
+	List<BankTransaction> list;
 
 	public long getAcc_no() {
 		return acc_no;
@@ -72,5 +81,13 @@ public class BankAccount {
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
 	}
-	
+
+	public List<BankTransaction> getList() {
+		return list;
+	}
+
+	public void setList(List<BankTransaction> list) {
+		this.list = list;
+	}
+
 }

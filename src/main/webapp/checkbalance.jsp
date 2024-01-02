@@ -18,6 +18,6 @@
 	%>
 	<h1>Hello<%if(customer.getGender().equals("male")){ %>Mr.<%}else{ %>Ms<%} %><%=customer.getCname() %></h1>
 	<h1>Hello!! Your account balance is:<%=bankAccount.getAmount() %></h1>
-	<
+	
 </body>
 </html>

@@ -60,8 +60,6 @@ public class Transfer extends HttpServlet {
 					}
 				}
 			}		
-		}
-		
-		
+		}		
 	}
 }
